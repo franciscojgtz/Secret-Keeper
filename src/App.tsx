@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
@@ -8,7 +8,21 @@ import { IncorrectGuesses } from "./Components/IncorrectGuesses/IncorrectGuesses
 import { GuessLetterInput } from "./Components/GuessLetterInput/GuessLetterInput";
 import { SecretWord } from "./Components/SecretWord/SecretWord";
 
+interface IAppSecretWordState {
+  word: string;
+  hiddenWord: string;
+  incorrectGuesses: string[];
+  remainingGuesses: number;
+}
+
 const App: React.FC = (): JSX.Element => {
+  const [secretWord, setSecretWord] = useState<IAppSecretWordState>({
+    word: "",
+    hiddenWord: "",
+    incorrectGuesses: [],
+    remainingGuesses: 6
+  });
+
   return (
     <Container className="App">
       <Row>
