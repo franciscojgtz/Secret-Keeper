@@ -1,12 +1,18 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 
-export const IncorrectGuesses: React.FC = (): JSX.Element => {
+interface IIncorrectGuesses {
+  letters: string[];
+}
+
+export const IncorrectGuesses: React.FC<IIncorrectGuesses> = (
+  props: IIncorrectGuesses
+): JSX.Element => {
   return (
     <>
       <Card>
         <Card.Body>
-          <Card.Text>A B C</Card.Text>
+          <Card.Text>{props.letters}</Card.Text>
         </Card.Body>
       </Card>
     </>

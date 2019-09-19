@@ -35,7 +35,7 @@ const App: React.FC = (): JSX.Element => {
       </Row>
       <Row>
         <Col xs={4}>
-          <IncorrectGuesses />
+          <IncorrectGuesses letters={secretWord.incorrectGuesses} />
         </Col>
         <Col xs={8}>
           <GuessLetterInput />
