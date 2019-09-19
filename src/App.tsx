@@ -8,7 +8,7 @@ import { IncorrectGuesses } from "./Components/IncorrectGuesses/IncorrectGuesses
 import { GuessLetterInput } from "./Components/GuessLetterInput/GuessLetterInput";
 import { SecretWord } from "./Components/SecretWord/SecretWord";
 
-interface IAppSecretWordState {
+export interface IAppSecretWordState {
   word: string;
   hiddenWord: string;
   incorrectGuesses: string[];
@@ -38,7 +38,10 @@ const App: React.FC = (): JSX.Element => {
           <IncorrectGuesses letters={secretWord.incorrectGuesses} />
         </Col>
         <Col xs={8}>
-          <GuessLetterInput />
+          <GuessLetterInput
+            secretWord={secretWord}
+            setSecretWord={setSecretWord}
+          />
         </Col>
       </Row>
       <Row>
