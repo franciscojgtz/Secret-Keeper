@@ -43,7 +43,7 @@ const App: React.FC = (): JSX.Element => {
       </Row>
       <Row>
         <Col>
-          <SecretWord />
+          <SecretWord word={secretWord.hiddenWord} />
         </Col>
       </Row>
     </Container>
