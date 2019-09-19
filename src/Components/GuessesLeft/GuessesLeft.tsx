@@ -1,13 +1,19 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 
-export const GuessesLeft: React.FC = (): JSX.Element => {
+interface IGuessesLeft {
+  remainingGuesses: number;
+}
+
+export const GuessesLeft: React.FC<IGuessesLeft> = (
+  props: IGuessesLeft
+): JSX.Element => {
   return (
     <>
       <Card>
         <Card.Body>
           <Card.Title>Guesses Left</Card.Title>
-          <Card.Text>6</Card.Text>
+          <Card.Text>{props.remainingGuesses}</Card.Text>
         </Card.Body>
       </Card>
     </>

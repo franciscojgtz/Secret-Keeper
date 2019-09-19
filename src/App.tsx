@@ -27,7 +27,7 @@ const App: React.FC = (): JSX.Element => {
     <Container className="App">
       <Row>
         <Col xs={4}>
-          <GuessesLeft />
+          <GuessesLeft remainingGuesses={secretWord.remainingGuesses} />
         </Col>
         <Col xs={8}>
           <MessageBoard />
