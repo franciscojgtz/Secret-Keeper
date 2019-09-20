@@ -10,6 +10,7 @@ import { SecretWord } from "./Components/SecretWord/SecretWord";
 import { getSecretWordFromAPI } from "./Utilities/utilitiesAPI";
 import { HIDDEN_LETTER_DELIMITER } from "./Types/constants";
 import { StartGame } from "./Components/StartGame/StartGame";
+import { isFirstGame } from "./Utilities/utilities";
 
 export interface IAppSecretWordState {
   word: string;
@@ -71,7 +72,7 @@ const App: React.FC = (): JSX.Element => {
           <IncorrectGuesses letters={secretWord.incorrectGuesses} />
         </Col>
         <Col xs={8}>
-          {secretWord.remainingGuesses > 0 ? (
+          {secretWord.remainingGuesses > 0 && !isFirstGame(game.id) ? (
             <GuessLetterInput
               secretWord={secretWord}
               setSecretWord={setSecretWord}
@@ -83,7 +84,11 @@ const App: React.FC = (): JSX.Element => {
       </Row>
       <Row>
         <Col>
-          <SecretWord word={secretWord.hiddenWord} />
+          {isFirstGame(game.id) ? (
+            ""
+          ) : (
+            <SecretWord word={secretWord.hiddenWord} />
+          )}
         </Col>
       </Row>
     </Container>
