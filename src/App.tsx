@@ -9,6 +9,7 @@ import { GuessLetterInput } from "./Components/GuessLetterInput/GuessLetterInput
 import { SecretWord } from "./Components/SecretWord/SecretWord";
 import { getSecretWordFromAPI } from "./Utilities/utilitiesAPI";
 import { HIDDEN_LETTER_DELIMITER } from "./Types/constants";
+import { StartGame } from "./Components/StartGame/StartGame";
 
 export interface IAppSecretWordState {
   word: string;
@@ -18,6 +19,7 @@ export interface IAppSecretWordState {
 }
 
 export interface IAppGameState {
+  id: number;
   difficulty: number;
 }
 
@@ -30,6 +32,7 @@ const App: React.FC = (): JSX.Element => {
   });
 
   const [game, setGame] = useState({
+    id: 0,
     difficulty: 1
   });
 
@@ -51,7 +54,7 @@ const App: React.FC = (): JSX.Element => {
     };
 
     fetchData();
-  }, [game]);
+  }, [game.id]);
 
   return (
     <Container className="App">
@@ -74,7 +77,7 @@ const App: React.FC = (): JSX.Element => {
               setSecretWord={setSecretWord}
             />
           ) : (
-            <p>Game over</p>
+            <StartGame game={game} setGame={setGame} />
           )}
         </Col>
       </Row>
