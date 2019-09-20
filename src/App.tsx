@@ -17,6 +17,10 @@ export interface IAppSecretWordState {
   remainingGuesses: number;
 }
 
+export interface IAppGameState {
+  difficulty: number;
+}
+
 const App: React.FC = (): JSX.Element => {
   const [secretWord, setSecretWord] = useState<IAppSecretWordState>({
     word: "Loading...",
@@ -25,9 +29,13 @@ const App: React.FC = (): JSX.Element => {
     remainingGuesses: 6
   });
 
+  const [game, setGame] = useState({
+    difficulty: 1
+  });
+
   useEffect(() => {
     const fetchData = async () => {
-      const wordFromAPI = await getSecretWordFromAPI();
+      const wordFromAPI = await getSecretWordFromAPI(game.difficulty);
       const word = wordFromAPI.toLowerCase();
       console.log(word);
       const hiddenWord = word
@@ -43,7 +51,7 @@ const App: React.FC = (): JSX.Element => {
     };
 
     fetchData();
-  }, []);
+  }, [game]);
 
   return (
     <Container className="App">
@@ -60,10 +68,14 @@ const App: React.FC = (): JSX.Element => {
           <IncorrectGuesses letters={secretWord.incorrectGuesses} />
         </Col>
         <Col xs={8}>
-          <GuessLetterInput
-            secretWord={secretWord}
-            setSecretWord={setSecretWord}
-          />
+          {secretWord.remainingGuesses > 0 ? (
+            <GuessLetterInput
+              secretWord={secretWord}
+              setSecretWord={setSecretWord}
+            />
+          ) : (
+            <p>Game over</p>
+          )}
         </Col>
       </Row>
       <Row>
