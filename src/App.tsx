@@ -8,9 +8,8 @@ import { IncorrectGuesses } from "./Components/IncorrectGuesses/IncorrectGuesses
 import { GuessLetterInput } from "./Components/GuessLetterInput/GuessLetterInput";
 import { SecretWord } from "./Components/SecretWord/SecretWord";
 import { getSecretWordFromAPI } from "./Utilities/utilitiesAPI";
-import { HIDDEN_LETTER_DELIMITER } from "./Types/constants";
 import { StartGame } from "./Components/StartGame/StartGame";
-import { isGameOn } from "./Utilities/utilities";
+import { isGameOn, hideWord } from "./Utilities/utilities";
 
 export interface IAppSecretWordState {
   word: string;
@@ -42,10 +41,7 @@ const App: React.FC = (): JSX.Element => {
       const wordFromAPI = await getSecretWordFromAPI(game.difficulty);
       const word = wordFromAPI.toLowerCase();
       console.log(word);
-      const hiddenWord = word
-        .split("")
-        .map(letter => HIDDEN_LETTER_DELIMITER)
-        .join("");
+      const hiddenWord = hideWord(word);
       setSecretWord({
         word,
         hiddenWord,

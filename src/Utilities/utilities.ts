@@ -21,3 +21,10 @@ export const isGameOn = (
     !isFirstGame(gameID) && !isPlayerWinner(hiddenWord) && remainingGuesses > 0
   );
 };
+
+export const hideWord = (word: string): string => {
+  return word
+    .split("")
+    .map(letter => HIDDEN_LETTER_DELIMITER)
+    .join("");
+};
