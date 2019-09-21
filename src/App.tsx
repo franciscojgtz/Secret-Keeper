@@ -10,6 +10,7 @@ import { SecretWord } from "./Components/SecretWord/SecretWord";
 import { getSecretWordFromAPI } from "./Utilities/utilitiesAPI";
 import { StartGame } from "./Components/StartGame/StartGame";
 import { isGameOn, hideWord } from "./Utilities/utilities";
+import { HIDDEN_LETTER_DELIMITER } from "./Types/constants";
 
 export interface IAppSecretWordState {
   word: string;
@@ -26,7 +27,7 @@ export interface IAppGameState {
 const App: React.FC = (): JSX.Element => {
   const [secretWord, setSecretWord] = useState<IAppSecretWordState>({
     word: "Loading...",
-    hiddenWord: "Loading...",
+    hiddenWord: HIDDEN_LETTER_DELIMITER,
     incorrectGuesses: [],
     remainingGuesses: 6
   });
@@ -60,7 +61,7 @@ const App: React.FC = (): JSX.Element => {
           <GuessesLeft remainingGuesses={secretWord.remainingGuesses} />
         </Col>
         <Col xs={8}>
-          <MessageBoard />
+          <MessageBoard secretWord={secretWord} />
         </Col>
       </Row>
       <Row>

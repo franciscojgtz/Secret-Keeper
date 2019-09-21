@@ -28,3 +28,10 @@ export const hideWord = (word: string): string => {
     .map(letter => HIDDEN_LETTER_DELIMITER)
     .join("");
 };
+
+export const isPlayerLoser = (
+  remainingGuesses: number,
+  hiddenWord: string
+): boolean => {
+  return remainingGuesses === 0 && !isPlayerWinner(hiddenWord);
+};
