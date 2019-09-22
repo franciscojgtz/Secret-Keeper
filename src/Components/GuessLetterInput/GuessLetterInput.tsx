@@ -17,7 +17,9 @@ export const GuessLetterInput: React.FC<IGuessLetterInput> = (
 
   // TODO: Add type safety
   const updateInputString = (event: any) => {
-    setInputString(event.target.value);
+    const input = event.target.value;
+    const formattedInput = input.trim().toLowerCase();
+    setInputString(formattedInput);
   };
 
   // TODO: Check for mouse event
