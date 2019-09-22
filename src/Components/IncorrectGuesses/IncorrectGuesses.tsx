@@ -12,9 +12,9 @@ export const IncorrectGuesses: React.FC<IIncorrectGuesses> = (
   const lettersArray = letters.map(l => `${l} `);
   return (
     <>
-      <Card>
-        <Card.Body className="text-center">
-          <Card.Title>Incorrect Letters</Card.Title>
+      <Card className="text-center">
+        <Card.Header>Incorrect Letters</Card.Header>
+        <Card.Body>
           <Card.Text>{lettersArray}</Card.Text>
         </Card.Body>
       </Card>

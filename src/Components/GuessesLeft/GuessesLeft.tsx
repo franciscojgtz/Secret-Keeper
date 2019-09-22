@@ -10,9 +10,9 @@ export const GuessesLeft: React.FC<IGuessesLeft> = (
 ): JSX.Element => {
   return (
     <>
-      <Card>
+      <Card className="text-center">
+        <Card.Header>Guesses Left</Card.Header>
         <Card.Body className="text-center">
-          <Card.Title>Guesses Left</Card.Title>
           <Card.Text>{props.remainingGuesses}</Card.Text>
         </Card.Body>
       </Card>

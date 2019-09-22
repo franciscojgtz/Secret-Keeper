@@ -20,7 +20,7 @@ export interface IAppGameState {
   difficulty: number;
 }
 
-export interface IUserStatState {
+export interface IAppUserStatsState {
   gamesWon: number;
   gamesLost: number;
 }
@@ -38,7 +38,7 @@ const App: React.FC = (): JSX.Element => {
     difficulty: 1
   });
 
-  const [userStats, setUserStats] = useState<IUserStatState>({
+  const [userStats, setUserStats] = useState<IAppUserStatsState>({
     gamesLost: 0,
     gamesWon: 0
   });
@@ -64,7 +64,7 @@ const App: React.FC = (): JSX.Element => {
     <Container className="App">
       <Row>
         <Col xs={4}>
-          <InfoPanel secretWord={secretWord} />
+          <InfoPanel secretWord={secretWord} userStats={userStats} />
         </Col>
         <Col xs={8}>
           <GamePanel
