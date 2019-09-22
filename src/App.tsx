@@ -90,7 +90,7 @@ const App: React.FC = (): JSX.Element => {
             secretWord.hiddenWord,
             secretWord.remainingGuesses
           ) ? (
-            <SecretWord word={secretWord.hiddenWord} />
+            <SecretWord secretWord={secretWord.hiddenWord} />
           ) : (
             ""
           )}
