@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
-import { MessageBoard } from "./Components/MessageBoard/MessageBoard";
-import { GuessLetterInput } from "./Components/GuessLetterInput/GuessLetterInput";
-import { SecretWord } from "./Components/SecretWord/SecretWord";
 import { getSecretWordFromAPI } from "./Utilities/utilitiesAPI";
-import { StartGame } from "./Components/StartGame/StartGame";
-import { isGameOn, hideWord } from "./Utilities/utilities";
+import { hideWord } from "./Utilities/utilities";
 import { HIDDEN_LETTER_DELIMITER } from "./Types/constants";
 import { InfoPanel } from "./Components/InfoPanel/InfoPanel";
+import { GamePanel } from "./Components/GamePanel/GamePanel";
 
 export interface IAppSecretWordState {
   word: string;
@@ -36,7 +33,7 @@ const App: React.FC = (): JSX.Element => {
     remainingGuesses: 6
   });
 
-  const [game, setGame] = useState({
+  const [game, setGame] = useState<IAppGameState>({
     id: 0,
     difficulty: 1
   });
@@ -70,36 +67,12 @@ const App: React.FC = (): JSX.Element => {
           <InfoPanel secretWord={secretWord} />
         </Col>
         <Col xs={8}>
-          <Row>
-            <Col xs={12}>
-              <MessageBoard secretWord={secretWord} />
-            </Col>
-            <Col xs={12}>
-              {isGameOn(
-                game.id,
-                secretWord.hiddenWord,
-                secretWord.remainingGuesses
-              ) ? (
-                <GuessLetterInput
-                  secretWord={secretWord}
-                  setSecretWord={setSecretWord}
-                />
-              ) : (
-                <StartGame game={game} setGame={setGame} />
-              )}
-            </Col>
-            <Col>
-              {isGameOn(
-                game.id,
-                secretWord.hiddenWord,
-                secretWord.remainingGuesses
-              ) ? (
-                <SecretWord secretWord={secretWord.hiddenWord} />
-              ) : (
-                ""
-              )}
-            </Col>
-          </Row>
+          <GamePanel
+            secretWord={secretWord}
+            setSecretWord={setSecretWord}
+            game={game}
+            setGame={setGame}
+          />
         </Col>
       </Row>
     </Container>
