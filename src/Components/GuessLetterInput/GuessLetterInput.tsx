@@ -25,19 +25,30 @@ export const GuessLetterInput: React.FC<IGuessLetterInput> = (
   // TODO: Check for mouse event
   const submitInput = (event: any) => {
     const secretWordCopy = { ...secretWord };
-    // Is letter in secret word
-    if (isLetterInSecretWord(secretWord.word, inputString)) {
-      const newHiddenWord = updateHiddenWord(
-        secretWord.word,
-        secretWord.hiddenWord,
-        inputString
-      );
-      setSecretWord({ ...secretWordCopy, hiddenWord: newHiddenWord });
-    } else {
-      secretWordCopy.remainingGuesses--;
-      secretWordCopy.incorrectGuesses.push(inputString);
-      setSecretWord({ ...secretWordCopy });
+    if (inputString.length === 1) {
+      // One Letter
+      // Is letter in secret word
+      if (isLetterInSecretWord(secretWord.word, inputString)) {
+        const newHiddenWord = updateHiddenWord(
+          secretWord.word,
+          secretWord.hiddenWord,
+          inputString
+        );
+        setSecretWord({ ...secretWordCopy, hiddenWord: newHiddenWord });
+      } else {
+        secretWordCopy.remainingGuesses--;
+        secretWordCopy.incorrectGuesses.push(inputString);
+        setSecretWord({ ...secretWordCopy });
+      }
+    } else if (inputString.length > 1) {
+      if (isInputSecretWord(inputString, secretWord.word)) {
+        setSecretWord({ ...secretWordCopy, hiddenWord: inputString });
+      } else {
+        secretWordCopy.remainingGuesses--;
+        setSecretWord({ ...secretWordCopy });
+      }
     }
+
     setInputString("");
   };
 
@@ -87,3 +98,7 @@ const isLetterInSecretWord = (word: string, letter: string): boolean => {
 };
 
 const getWordAsArray = (word: string): string[] => word.split("");
+
+const isInputSecretWord = (input: string, word: string): boolean => {
+  return input === word;
+};
