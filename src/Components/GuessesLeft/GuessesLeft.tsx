@@ -11,7 +11,7 @@ export const GuessesLeft: React.FC<IGuessesLeft> = (
   return (
     <>
       <Card>
-        <Card.Body>
+        <Card.Body className="text-center">
           <Card.Title>Guesses Left</Card.Title>
           <Card.Text>{props.remainingGuesses}</Card.Text>
         </Card.Body>

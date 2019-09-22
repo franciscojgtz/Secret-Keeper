@@ -11,7 +11,8 @@ export const IncorrectGuesses: React.FC<IIncorrectGuesses> = (
   return (
     <>
       <Card>
-        <Card.Body>
+        <Card.Body className="text-center">
+          <Card.Title>Incorrect Letters</Card.Title>
           <Card.Text>{props.letters}</Card.Text>
         </Card.Body>
       </Card>
