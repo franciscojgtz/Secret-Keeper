@@ -24,6 +24,11 @@ export interface IAppGameState {
   difficulty: number;
 }
 
+export interface IUserStatState {
+  gamesWon: number;
+  gamesLost: number;
+}
+
 const App: React.FC = (): JSX.Element => {
   const [secretWord, setSecretWord] = useState<IAppSecretWordState>({
     word: "Loading...",
@@ -35,6 +40,11 @@ const App: React.FC = (): JSX.Element => {
   const [game, setGame] = useState({
     id: 0,
     difficulty: 1
+  });
+
+  const [userStats, setUserStats] = useState<IUserStatState>({
+    gamesLost: 0,
+    gamesWon: 0
   });
 
   useEffect(() => {
