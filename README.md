@@ -1,3 +1,16 @@
+# Secret-Keeper
+
+## Game Rules
+- Select a difficulty level and click start game
+- The computer/secret-keeper will choose a dictinoary word
+- User gets up to six opportunities to solve the game
+- User may enter a letter or a guess the entire word
+- User wins the game if she guesses the word before six wrong tries
+
+
+### moesif extension
+In order to use Secret-Server and if you are using chrome, install [moesif orgin cors changer](https://chrome.google.com/webstore/detail/moesif-orign-cors-changer/digfbfaphojjndkpccljibejjbppifbc?hl=en-US).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
