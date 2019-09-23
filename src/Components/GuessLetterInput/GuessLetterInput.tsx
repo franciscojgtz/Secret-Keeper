@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputGroup from "react-bootstrap/InputGroup";
-import { FormControl, Button } from "react-bootstrap";
+import { FormControl, Button, FormControlProps } from "react-bootstrap";
 import {
   IAppSecretWordState,
   IAppUserStatsState,
@@ -9,6 +9,7 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import { HIDDEN_LETTER_DELIMITER } from "../../Types/constants";
 import { playerWon, playerLost } from "../../Utilities/utilities";
+import { ReplaceProps, BsPrefixProps } from "react-bootstrap/helpers";
 interface IGuessLetterInput {
   secretWord: IAppSecretWordState;
   setSecretWord: React.Dispatch<React.SetStateAction<IAppSecretWordState>>;
@@ -23,15 +24,17 @@ export const GuessLetterInput: React.FC<IGuessLetterInput> = (
   const { secretWord, setSecretWord, userStats, setUserStats, game } = props;
   const [inputString, setInputString] = useState("");
 
-  // TODO: Add type safety
-  const updateInputString = (event: any) => {
-    const input = event.target.value;
+  const updateInputString = (
+    event: React.FormEvent<
+      ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
+    >
+  ) => {
+    const input = event.currentTarget.value || "";
     const formattedInput = input.trim().toLowerCase();
     setInputString(formattedInput);
   };
 
-  // TODO: Check for mouse event
-  const submitInput = (event: any) => {
+  const submitInput = () => {
     const secretWordCopy = { ...secretWord };
 
     if (inputString.length === 1) {

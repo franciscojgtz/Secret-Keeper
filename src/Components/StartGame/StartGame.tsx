@@ -1,7 +1,8 @@
 import React from "react";
 import InputGroup from "react-bootstrap/InputGroup";
-import { FormControl, Button } from "react-bootstrap";
+import { FormControl, Button, FormControlProps } from "react-bootstrap";
 import { IAppGameState } from "../../App";
+import { ReplaceProps, BsPrefixProps } from "react-bootstrap/helpers";
 
 interface IStartGameProps {
   game: IAppGameState;
@@ -14,9 +15,12 @@ export const StartGame: React.FC<IStartGameProps> = (
   const { game, setGame } = props;
   const { difficulty, id } = game;
 
-  // TODO: Add type safety
-  const updateDifficulty = (event: any) => {
-    const newDifficulty = event.target.value;
+  const updateDifficulty = (
+    event: React.FormEvent<
+      ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
+    >
+  ) => {
+    const newDifficulty = parseInt(event.currentTarget.value || "1");
     const gameCopy = { ...game, difficulty: newDifficulty };
     setGame(gameCopy);
   };
