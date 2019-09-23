@@ -47,7 +47,6 @@ export const GamePanel: React.FC<IGamePanelProps> = (
       <Col xs={12}>
         {isGamePlaying ? (
           <GuessLetterInput
-            game={game}
             secretWord={secretWord}
             setSecretWord={setSecretWord}
             userStats={userStats}

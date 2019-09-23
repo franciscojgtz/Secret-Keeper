@@ -48,6 +48,7 @@ const App: React.FC = (): JSX.Element => {
   useEffect(() => {
     const fetchData = async () => {
       const wordFromAPI = await getSecretWordFromAPI(game.difficulty);
+      console.log(wordFromAPI);
       const word = wordFromAPI.toLowerCase();
       const hiddenWord = hideWord(word);
       setSecretWord({

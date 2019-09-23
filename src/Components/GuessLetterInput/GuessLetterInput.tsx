@@ -1,27 +1,23 @@
 import React, { useState } from "react";
 import InputGroup from "react-bootstrap/InputGroup";
 import { FormControl, Button, FormControlProps } from "react-bootstrap";
-import {
-  IAppSecretWordState,
-  IAppUserStatsState,
-  IAppGameState
-} from "../../App";
+import { IAppSecretWordState, IAppUserStatsState } from "../../App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { HIDDEN_LETTER_DELIMITER } from "../../Types/constants";
 import { playerWon, playerLost } from "../../Utilities/utilities";
 import { ReplaceProps, BsPrefixProps } from "react-bootstrap/helpers";
+import { SecretWord } from "../SecretWord/SecretWord";
 interface IGuessLetterInput {
   secretWord: IAppSecretWordState;
   setSecretWord: React.Dispatch<React.SetStateAction<IAppSecretWordState>>;
   userStats: IAppUserStatsState;
   setUserStats: React.Dispatch<React.SetStateAction<IAppUserStatsState>>;
-  game: IAppGameState;
 }
 
 export const GuessLetterInput: React.FC<IGuessLetterInput> = (
   props: IGuessLetterInput
 ): JSX.Element => {
-  const { secretWord, setSecretWord, userStats, setUserStats, game } = props;
+  const { secretWord, setSecretWord, userStats, setUserStats } = props;
   const [inputString, setInputString] = useState("");
 
   const updateInputString = (
@@ -35,44 +31,40 @@ export const GuessLetterInput: React.FC<IGuessLetterInput> = (
   };
 
   const submitInput = () => {
-    const secretWordCopy = { ...secretWord };
-
     if (inputString.length === 1) {
-      // One Letter
-      // Is letter in secret word
       if (isLetterInSecretWord(secretWord.word, inputString)) {
-        const newHiddenWord = updateHiddenWord(
-          secretWord.word,
-          secretWord.hiddenWord,
-          inputString
+        playerGuessedCorrectLetter(
+          secretWord,
+          inputString,
+          userStats,
+          setSecretWord,
+          setUserStats
         );
-
-        if (isInputSecretWord(newHiddenWord, secretWord.word)) {
-          // Player guessed the word;
-          playerWon(userStats, setUserStats);
-        }
-        setSecretWord({ ...secretWordCopy, hiddenWord: newHiddenWord });
       } else {
-        secretWordCopy.remainingGuesses--;
-        if (secretWordCopy.remainingGuesses === 0) {
-          //Player Lost
-          playerLost(userStats, setUserStats);
-        }
-        secretWordCopy.incorrectGuesses.push(inputString);
-        setSecretWord({ ...secretWordCopy });
+        playerGussedWrongLetter(
+          secretWord,
+          inputString,
+          userStats,
+          setSecretWord,
+          setUserStats
+        );
       }
     } else if (inputString.length > 1) {
       if (isInputSecretWord(inputString, secretWord.word)) {
-        // Player guessed the word;
-        playerWon(userStats, setUserStats);
-        setSecretWord({ ...secretWordCopy, hiddenWord: inputString });
+        playerGuessedCorrectWord(
+          secretWord,
+          inputString,
+          userStats,
+          setSecretWord,
+          setUserStats
+        );
       } else {
-        secretWordCopy.remainingGuesses--;
-        if (secretWordCopy.remainingGuesses === 0) {
-          //Player Lost
-          playerLost(userStats, setUserStats);
-        }
-        setSecretWord({ ...secretWordCopy });
+        playerGuessedWrongWord(
+          secretWord,
+          userStats,
+          setSecretWord,
+          setUserStats
+        );
       }
     }
 
@@ -128,4 +120,64 @@ const getWordAsArray = (word: string): string[] => word.split("");
 
 const isInputSecretWord = (input: string, word: string): boolean => {
   return input === word;
+};
+
+const playerGuessedCorrectLetter = (
+  secretWord: IAppSecretWordState,
+  inputString: string,
+  userStats: IAppUserStatsState,
+  setSecretWord: React.Dispatch<React.SetStateAction<IAppSecretWordState>>,
+  setUserStats: React.Dispatch<React.SetStateAction<IAppUserStatsState>>
+) => {
+  const { word, hiddenWord } = secretWord;
+  const secretWordCopy = { ...secretWord };
+  const newHiddenWord = updateHiddenWord(word, hiddenWord, inputString);
+
+  if (isInputSecretWord(newHiddenWord, word)) {
+    // Player guessed the word;
+    playerWon(userStats, setUserStats);
+  }
+  setSecretWord({ ...secretWordCopy, hiddenWord: newHiddenWord });
+};
+
+const playerGussedWrongLetter = (
+  secretWord: IAppSecretWordState,
+  inputString: string,
+  userStats: IAppUserStatsState,
+  setSecretWord: React.Dispatch<React.SetStateAction<IAppSecretWordState>>,
+  setUserStats: React.Dispatch<React.SetStateAction<IAppUserStatsState>>
+) => {
+  const secretWordCopy = { ...secretWord };
+  secretWordCopy.remainingGuesses--;
+  if (secretWordCopy.remainingGuesses === 0) {
+    playerLost(userStats, setUserStats);
+  }
+  secretWordCopy.incorrectGuesses.push(inputString);
+  setSecretWord({ ...secretWordCopy });
+};
+
+const playerGuessedCorrectWord = (
+  secretWord: IAppSecretWordState,
+  inputString: string,
+  userStats: IAppUserStatsState,
+  setSecretWord: React.Dispatch<React.SetStateAction<IAppSecretWordState>>,
+  setUserStats: React.Dispatch<React.SetStateAction<IAppUserStatsState>>
+) => {
+  const secretWordCopy = { ...secretWord };
+  playerWon(userStats, setUserStats);
+  setSecretWord({ ...secretWordCopy, hiddenWord: inputString });
+};
+
+const playerGuessedWrongWord = (
+  secretWord: IAppSecretWordState,
+  userStats: IAppUserStatsState,
+  setSecretWord: React.Dispatch<React.SetStateAction<IAppSecretWordState>>,
+  setUserStats: React.Dispatch<React.SetStateAction<IAppUserStatsState>>
+) => {
+  const secretWordCopy = { ...secretWord };
+  secretWordCopy.remainingGuesses--;
+  if (secretWordCopy.remainingGuesses === 0) {
+    playerLost(userStats, setUserStats);
+  }
+  setSecretWord({ ...secretWordCopy });
 };
