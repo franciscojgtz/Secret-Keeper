@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import InputGroup from "react-bootstrap/InputGroup";
 import { FormControl, Button } from "react-bootstrap";
-import { IAppSecretWordState } from "../../App";
+import {
+  IAppSecretWordState,
+  IAppUserStatsState,
+  IAppGameState
+} from "../../App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { HIDDEN_LETTER_DELIMITER } from "../../Types/constants";
+import { playerWon, playerLost } from "../../Utilities/utilities";
 interface IGuessLetterInput {
   secretWord: IAppSecretWordState;
   setSecretWord: React.Dispatch<React.SetStateAction<IAppSecretWordState>>;
+  userStats: IAppUserStatsState;
+  setUserStats: React.Dispatch<React.SetStateAction<IAppUserStatsState>>;
+  game: IAppGameState;
 }
 
 export const GuessLetterInput: React.FC<IGuessLetterInput> = (
   props: IGuessLetterInput
 ): JSX.Element => {
-  const { secretWord, setSecretWord } = props;
+  const { secretWord, setSecretWord, userStats, setUserStats, game } = props;
   const [inputString, setInputString] = useState("");
 
   // TODO: Add type safety
@@ -25,6 +33,7 @@ export const GuessLetterInput: React.FC<IGuessLetterInput> = (
   // TODO: Check for mouse event
   const submitInput = (event: any) => {
     const secretWordCopy = { ...secretWord };
+
     if (inputString.length === 1) {
       // One Letter
       // Is letter in secret word
@@ -34,17 +43,32 @@ export const GuessLetterInput: React.FC<IGuessLetterInput> = (
           secretWord.hiddenWord,
           inputString
         );
+
+        if (isInputSecretWord(newHiddenWord, secretWord.word)) {
+          // Player guessed the word;
+          playerWon(userStats, setUserStats);
+        }
         setSecretWord({ ...secretWordCopy, hiddenWord: newHiddenWord });
       } else {
         secretWordCopy.remainingGuesses--;
+        if (secretWordCopy.remainingGuesses === 0) {
+          //Player Lost
+          playerLost(userStats, setUserStats);
+        }
         secretWordCopy.incorrectGuesses.push(inputString);
         setSecretWord({ ...secretWordCopy });
       }
     } else if (inputString.length > 1) {
       if (isInputSecretWord(inputString, secretWord.word)) {
+        // Player guessed the word;
+        playerWon(userStats, setUserStats);
         setSecretWord({ ...secretWordCopy, hiddenWord: inputString });
       } else {
         secretWordCopy.remainingGuesses--;
+        if (secretWordCopy.remainingGuesses === 0) {
+          //Player Lost
+          playerLost(userStats, setUserStats);
+        }
         setSecretWord({ ...secretWordCopy });
       }
     }
